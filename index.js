@@ -2,13 +2,14 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-const path = require("path");
+// const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+// const OUTPUT_DIR = path.resolve(__dirname, "output");
+// const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
+const employees = [];
 
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
@@ -119,16 +120,49 @@ const internQuestions = [
 function promptQuestions(questions) {
     inquirer.prompt(questions)
         .then(answers => {
-            // Do something with the answers
-            console.log(answers);
-            // If the user selected 'Engineer', prompt the additional engineer questions
+            if (questions === initialQuestions) {
+                // If it's the initial questions for the manager
+                const manager = new Manager(
+                    answers.managerName,
+                    answers.managerId,
+                    answers.managerEmail,
+                    answers.managerOfficeNumber
+                );
+                employees.push(manager);
+            } else if (questions === engineerQuestions) {
+                // If it's the questions for an engineer
+                const engineer = new Engineer(
+                    answers.engineerName,
+                    answers.engineerId,
+                    answers.engineerEmail,
+                    answers.engineerGithub
+                );
+                employees.push(engineer);
+            } else if (questions === internQuestions) {
+                // If it's the questions for an intern
+                const intern = new Intern(
+                    answers.internName,
+                    answers.internId,
+                    answers.internEmail,
+                    answers.internSchool
+                );
+                employees.push(intern);
+            }
+
             if (answers.teamMemberType === 'Engineer') {
                 promptQuestions(engineerQuestions);
             } else if (answers.teamMemberType === 'Intern') {
                 promptQuestions(internQuestions);
             } else {
-                // Do something else or end the process
                 console.log('Process completed!');
+
+                // Call the render function with the array of employee objects
+                const renderedHTML = render(employees);
+
+                // Write the generated HTML to the team.html file
+                fs.writeFileSync('team.html', renderedHTML);
+
+                // console.log(`Team information has been saved to ${outputPath}`);
             }
         })
         .catch(error => console.error('Error during inquirer prompt:', error));
