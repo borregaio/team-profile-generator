@@ -123,7 +123,7 @@ const internQuestions = [
     },
 ];
 
-// Propmt the questions with inquirer
+// Prompt the questions with inquirer
 function promptQuestions(questions) {
     inquirer.prompt(questions)
         .then(answers => {
@@ -156,7 +156,7 @@ function promptQuestions(questions) {
                 employees.push(intern);
             }
 
-            // Propmt questions for each team member
+            // Prompt questions for each team member
             if (answers.teamMemberType === 'Engineer') {
                 promptQuestions(engineerQuestions);
             } else if (answers.teamMemberType === 'Intern') {
