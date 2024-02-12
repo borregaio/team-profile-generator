@@ -2,55 +2,51 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-// const path = require("path");
 const fs = require("fs");
-
-// const OUTPUT_DIR = path.resolve(__dirname, "output");
-// const outputPath = path.join(OUTPUT_DIR, "team.html");
-
 const render = require("./src/page-template.js");
+
+// Generated employees array
 const employees = [];
 
 
-// TODO: Write Code to gather information about the development team members, and render the HTML file.
-
-// Add a statement before the questions
+// Statement before the questions
 console.log('Please build your team:');
 
-// Array of questions
+// Array of initial questions
 const initialQuestions = [
     {
-      type: 'input',
-      name: 'managerName',
-      message: 'What is the team manager\'s name?',
-      validate: input => (input !== '') ? true : 'Name is required',
+        type: 'input',
+        name: 'managerName',
+        message: 'What is the team manager\'s name?',
+        validate: input => (input !== '') ? true : 'Name is required',
     },
     {
-      type: 'input',
-      name: 'managerId',
-      message: 'What is the team manager\'s ID?',
-      validate: input => (input !== '') ? true : 'ID is required',
+        type: 'input',
+        name: 'managerId',
+        message: 'What is the team manager\'s ID?',
+        validate: input => (input !== '') ? true : 'ID is required',
     },
     {
-      type: 'input',
-      name: 'managerEmail',
-      message: 'What is the team manager\'s email?',
-      validate: input => (input !== '') ? true : 'Email is required',
+        type: 'input',
+        name: 'managerEmail',
+        message: 'What is the team manager\'s email?',
+        validate: input => (input !== '') ? true : 'Email is required',
     },
     {
-      type: 'input',
-      name: 'managerOfficeNumber',
-      message: 'What is the team manager\'s office number?',
-      validate: input => (input !== '') ? true : 'Office number is required',
+        type: 'input',
+        name: 'managerOfficeNumber',
+        message: 'What is the team manager\'s office number?',
+        validate: input => (input !== '') ? true : 'Office number is required',
     },
     {
-      type: 'list',
-      name: 'teamMemberType',
-      message: 'Which type of team member would you like to add?',
-      choices: ['Engineer', 'Intern', 'I don\'t want to add any more team members'],
+        type: 'list',
+        name: 'teamMemberType',
+        message: 'Which type of team member would you like to add?',
+        choices: ['Engineer', 'Intern', 'I don\'t want to add any more team members'],
     },
 ];
 
+// Array of Engineer questions
 const engineerQuestions = [
     {
         type: 'input',
@@ -81,9 +77,10 @@ const engineerQuestions = [
         name: 'teamMemberType',
         message: 'Would you like to add another team member?',
         choices: ['Engineer', 'Intern', 'I don\'t want to add any more team members'],
-      },
+    },
 ];
 
+// Array of Intern questions
 const internQuestions = [
     {
         type: 'input',
@@ -114,14 +111,15 @@ const internQuestions = [
         name: 'teamMemberType',
         message: 'Would you like to add another team member?',
         choices: ['Engineer', 'Intern', 'I don\'t want to add any more team members'],
-      },
+    },
 ];
 
+// Propmt the questions with inquirer
 function promptQuestions(questions) {
     inquirer.prompt(questions)
         .then(answers => {
             if (questions === initialQuestions) {
-                // If it's the initial questions for the manager
+                // Create an instance of the Manager class using the constructor and push it to the employees array
                 const manager = new Manager(
                     answers.managerName,
                     answers.managerId,
@@ -130,7 +128,7 @@ function promptQuestions(questions) {
                 );
                 employees.push(manager);
             } else if (questions === engineerQuestions) {
-                // If it's the questions for an engineer
+                // Create an instance of the Engineer class using the constructor and push it to the employees array
                 const engineer = new Engineer(
                     answers.engineerName,
                     answers.engineerId,
@@ -139,7 +137,7 @@ function promptQuestions(questions) {
                 );
                 employees.push(engineer);
             } else if (questions === internQuestions) {
-                // If it's the questions for an intern
+                // Create an instance of the Intern class using the constructor and push it to the employees array
                 const intern = new Intern(
                     answers.internName,
                     answers.internId,
@@ -149,11 +147,13 @@ function promptQuestions(questions) {
                 employees.push(intern);
             }
 
+            // Propmt questions for each team member
             if (answers.teamMemberType === 'Engineer') {
                 promptQuestions(engineerQuestions);
             } else if (answers.teamMemberType === 'Intern') {
                 promptQuestions(internQuestions);
             } else {
+                // If there are no more team memebers
                 console.log('Process completed!');
 
                 // Call the render function with the array of employee objects
@@ -161,8 +161,6 @@ function promptQuestions(questions) {
 
                 // Write the generated HTML to the team.html file
                 fs.writeFileSync('team.html', renderedHTML);
-
-                // console.log(`Team information has been saved to ${outputPath}`);
             }
         })
         .catch(error => console.error('Error during inquirer prompt:', error));
