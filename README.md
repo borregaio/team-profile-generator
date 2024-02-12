@@ -110,7 +110,7 @@ Follow these steps to use and contribute to the Team Profile Generator:
 
 2. **Create Questions to be Prompted for Every Employee with Inquirer:**
 
-    - Define a set of questions using the [Inquirer package](https://www.npmjs.com/package/inquirer) to prompt users for information about each team member. Customize questions based on the role (e.g., additional questions for engineers).
+    - Define a set of questions using the [Inquirer package](https://www.npmjs.com/package/inquirer) to prompt users for information about each team member. Customise questions based on the role (e.g., additional questions for engineers).
         ```javascript
         const initialQuestions = [
             {
@@ -166,14 +166,14 @@ Follow these steps to use and contribute to the Team Profile Generator:
 
 4. **Render HTML File with the Employee Array Items:**
 
-   - Develop a function to dynamically generate HTML content using the information stored in the `employeesArray`. Utilize template literals or a templating engine to create a professional-looking layout.
+   - Develop a function to dynamically generate HTML content using the information stored in the `employees` array. Utilise template literals or a templating engine to create a professional-looking layout.
         ```javascript
         const renderedHTML = render(employees);
         ```
 
 5. **Save HTML File to the Output Folder:**
 
-   - Implement functionality to save the generated HTML file to the `output` folder. Ensure the file is easily accessible for users to view and share the team profile.
+   - Implement functionality to save the generated HTML file to the `output` folder.
         ```javascript
         fs.writeFileSync(outputPath, renderedHTML);
         ```
