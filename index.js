@@ -2,8 +2,17 @@ const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
+const path = require("path");
 const fs = require("fs");
 const render = require("./src/page-template.js");
+
+const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
+
+// Ensure that the output directory exists, create it if necessary
+if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+}
 
 // Generated employees array
 const employees = [];
@@ -159,8 +168,11 @@ function promptQuestions(questions) {
                 // Call the render function with the array of employee objects
                 const renderedHTML = render(employees);
 
+                // Define the output path for the team.html file within the output directory
+                // const outputPath = path.join(OUTPUT_DIR, 'team.html');
+
                 // Write the generated HTML to the team.html file
-                fs.writeFileSync('team.html', renderedHTML);
+                fs.writeFileSync(outputPath, renderedHTML);
             }
         })
         .catch(error => console.error('Error during inquirer prompt:', error));
