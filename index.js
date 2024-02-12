@@ -168,9 +168,6 @@ function promptQuestions(questions) {
                 // Call the render function with the array of employee objects
                 const renderedHTML = render(employees);
 
-                // Define the output path for the team.html file within the output directory
-                // const outputPath = path.join(OUTPUT_DIR, 'team.html');
-
                 // Write the generated HTML to the team.html file
                 fs.writeFileSync(outputPath, renderedHTML);
             }
