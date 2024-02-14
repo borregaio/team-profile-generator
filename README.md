@@ -16,7 +16,7 @@ This Node.js command-line application is designed to streamline the process of g
 
 ### HTML Output:
 
-- Generates a sample HTML file that displays concise summaries for each team member.
+- Generates a sample HTML file that displays concise summaries for each team member. You can find a sample [here](./output/team.html).
 
 ### Tested Functionality:
 
